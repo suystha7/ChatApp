@@ -23,7 +23,7 @@ app.use(
 );
 
 app.use(mongoSanitize());
-// app.use(xss());
+app.use(xss());
 
 app.use(express.json({ limit: "10kb" }));
 app.use(bodyParser.json());
