@@ -147,6 +147,18 @@ exports.forgetPassword = async (req, res, next) => {
   }
 
   const resetToken = user.createPasswordResetToken();
+
+  const resetURL = `https://tawk.com/auth/resetPassword/?code=${resetToken}`;
+
+  try {
+    res.status(200).json({
+      status: "success",
+      message: "Password reset link sent to email",
+    });
+  } catch (error) {
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+  }
 };
 
 exports.resetPassword = async (req, res, next) => {};
