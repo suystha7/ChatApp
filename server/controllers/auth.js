@@ -129,3 +129,24 @@ exports.login = async (req, res, next) => {
     token,
   });
 };
+
+exports.protect = async (req, res, next) => {
+
+};
+
+exports.forgetPassword = async (req, res, next) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({email: email});
+
+  if(!user){
+    res.status(400).json({
+      status: "error",
+      message: "There is no user with given email address",
+    });
+  }
+
+  const resetToken = user.createPasswordResetToken();
+};
+
+exports.resetPassword = async (req, res, next) => {};
