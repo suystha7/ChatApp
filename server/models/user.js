@@ -29,6 +29,15 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
   },
+  passwordConfirm: {
+    type: String,
+    validate: {
+      validator: function (passwordConfirm) {
+        return passwordConfirm === this.password;
+      },
+      message: "Passwords are not the same!",
+    }, 
+  },
   passwordChangedAt: {
     type: Date,
   },
@@ -83,6 +92,10 @@ userSchema.methods.createPasswordResetToken = function () {
 
   return resetToken;
 };
+
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  return JWTTimestamp < this.passwordChangedAt;
+}
 
 const User = new mongoose.model("User", userSchema);
 module.exports = User;
